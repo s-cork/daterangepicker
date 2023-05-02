@@ -5,7 +5,8 @@
   "main": "daterangepicker.js",
   "style": "daterangepicker.css",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node esbuild.config.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/dangrossman/daterangepicker",
   "dependencies": {
+    "esbuild": "^0.17.18",
     "jquery": ">=1.10",
     "moment": "^2.9.0"
   }

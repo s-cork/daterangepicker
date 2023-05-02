@@ -4,6 +4,7 @@
 * @copyright: Copyright (c) 2012-2019 Dan Grossman. All rights reserved.
 * @license: Licensed under the MIT license. See http://www.opensource.org/licenses/mit-license.php
 * @website: http://www.daterangepicker.com/
+* forked at: https://github.com/s-cork/daterangepicker
 */
 // Following the UMD template https://github.com/umdjs/umd/blob/master/templates/returnExportsGlobal.js
 (function (root, factory) {
@@ -1027,6 +1028,9 @@
                 drops = this.drops;
 
             var parentRightEdge = $(window).width();
+            const windowHeight = $(window).height();
+            const scrollY = window.scrollY;
+
             if (!this.parentEl.is('body')) {
                 parentOffset = {
                     top: this.parentEl.offset().top - this.parentEl.scrollTop(),
@@ -1038,9 +1042,14 @@
             switch (drops) {
             case 'auto':
                 containerTop = this.element.offset().top + this.element.outerHeight() - parentOffset.top;
-                if (containerTop + this.container.outerHeight() >= this.parentEl[0].scrollHeight) {
-                    containerTop = this.element.offset().top - this.container.outerHeight() - parentOffset.top;
-                    drops = 'up';
+                var containerBottomEdge = containerTop + this.container.outerHeight();
+                const relativeToWindowBottom = containerBottomEdge - scrollY;
+                if (relativeToWindowBottom >= windowHeight) {
+                    const maybeContainerTop = this.element.offset().top - this.container.outerHeight() - parentOffset.top;
+                    if (maybeContainerTop - scrollY >= 0) {
+                        drops = 'up';
+                        containerTop = maybeContainerTop;
+                    }
                 }
                 break;
             case 'up':
